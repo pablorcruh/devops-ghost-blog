@@ -89,4 +89,10 @@ In case you need to access to ghost server for the first time you need to ssh in
 
 ```
 
+## Note
+
+To access to the admin console on the CMS
+
+https://your.domain.com/ghost/
+
 
