@@ -1,0 +1,10 @@
+#cloud-config
+package_update: true
+packages:
+  - docker.io
+  - git
+runcmd:
+  - sudo apt install -y docker-compose
+  - cd /home 
+  - docker-compose up -d
+  - sudo chown 1000:1000 /var/run/docker.sock

@@ -1,0 +1,73 @@
+version: '3'
+services:
+  nginx-proxy:
+      image: jwilder/nginx-proxy:alpine
+      restart: unless-stopped
+      ports:
+        - "80:80" 
+        - "443:443"
+      networks:
+        - nginx-proxy 
+      labels:
+        - "com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy" 
+      volumes:
+        - /var/run/docker.sock:/tmp/docker.sock:ro
+        - "nginx-conf:/etc/nginx/conf.d"
+        - "nginx-vhost:/etc/nginx/vhost.d"
+        - "html:/usr/share/nginx/html"
+        - "certs:/etc/nginx/certs:ro"
+      depends_on:
+        - ghost
+  
+  letsencrypt-nginx-proxy-companion:
+      image: jrcs/letsencrypt-nginx-proxy-companion
+      restart: unless-stopped
+      container_name: letsencrypt-nginx-proxy-companion
+      volumes:
+        - "/var/run/docker.sock:/var/run/docker.sock:ro"
+        - "nginx-conf:/etc/nginx/conf.d"
+        - "nginx-vhost:/etc/nginx/vhost.d"
+        - "html:/usr/share/nginx/html"
+        - "certs:/etc/nginx/certs:rw"
+      depends_on: 
+          - nginx-proxy
+  ghost:
+    image: ghost:latest
+    container_name: ghost
+    restart: unless-stopped
+    depends_on:
+      - db
+    expose:
+      - "2368"        
+    environment:
+      url: $GHOST_URL
+      database__client: mysql
+      database__connection__host: db
+      database__connection__user: $DATABASE_USER
+      database__connection__password: $DATABASE_PASSWORD
+      database__connection__database: ghost
+      VIRTUAL_HOST: $GHOST_VIRTUAL_HOST
+      VIRTUAL_PORT: 2368
+      LETSENCRYPT_HOST: $GHOST_VIRTUAL_HOST
+      LETSENCRYPT_EMAIL: $SUPPORT_EMAIL
+    volumes:
+      -  /opt/ghost_content:/var/lib/lib/ghost/content
+    networks:
+      - nginx-proxy
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: $DATABASE_PASSWORD
+    volumes:
+      - /opt/ghost_mysql:/var/lib/mysql
+    networks:
+      - nginx-proxy
+
+networks:
+  nginx-proxy: 
+volumes: 
+    nginx-conf:
+    nginx-vhost:
+    html:
+    certs:
