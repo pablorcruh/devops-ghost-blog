@@ -93,6 +93,7 @@ In case you need to access to ghost server for the first time you need to ssh in
 
 To access to the admin console on the CMS
 
-https://your.domain.com/ghost/
+* https://your.domain.com/ghost/
 
+You wil be redirect to setup a admin user and a password to manage the blog
 
