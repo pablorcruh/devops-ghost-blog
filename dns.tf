@@ -4,7 +4,7 @@ resource "digitalocean_domain" "ghost" {
 
 resource "digitalocean_record" "www" {
   domain = digitalocean_domain.ghost.name
-  name = "ghost"
+  name = "blog"
   type = "A"
   value = digitalocean_droplet.ghost.ipv4_address
 }
