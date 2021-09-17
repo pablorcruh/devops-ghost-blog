@@ -44,8 +44,8 @@ On the root of the project we create a folder and generate the ssh keys
 We need an environment variables so we need to create a .env file on the root of the project
 
 ```
-    GHOST_URL=https://your.domain.com
-    GHOST_VIRTUAL_HOST=your.domain.com
+    GHOST_URL=https://example.ghost.your-domain.com
+    GHOST_VIRTUAL_HOST=example.ghost.your-domain.com
     DATABASE_PASSWORD=database_password
     SUPPORT_EMAIL=support@email.com
     DATABASE_USER=root
@@ -67,11 +67,11 @@ We need to create a file called terraform.tfvars with the following structure
 ```
     do_token="DIGITAL_OCEAN_API_KEY"
     file_path="file/path/from/source/project"
-    domain="ghost.your.domain"
+    domain="ghost.your-domain.com"
 ```
 
 The domain on the terraform.tfvars is a subdomain that we specify to create a A record on de Digital Ocean DNS record
-In the example we specify ghost.your.domain that will be created
+In the example we specify ghost.your-domain.com that will be created
 
 We specify the path to the project so terraform can locate the docker-compose file.
 
