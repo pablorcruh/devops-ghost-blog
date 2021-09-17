@@ -70,6 +70,9 @@ We need to create a file called terraform.tfvars with the following structure
     domain="ghost.your.domain"
 ```
 
+The domain on the terraform.tfvars is a subdomain that we specify to create a A record on de Digital Ocean DNS record
+In the example we specify ghost.your.domain that will be created
+
 We specify the path to the project so terraform can locate the docker-compose file.
 
 ```
